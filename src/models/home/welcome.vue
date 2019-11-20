@@ -1,12 +1,10 @@
 <template>
-  <JobList></JobList>
 </template>
 
 
 <script>
   import WorkTablePager from '@/models/public/WorkTablePager'
   import WorkMain from '@/models/public/WorkMain'
-  import JobList from '@/models/spider/job/jobList'
 
   export default {
     name: 'Welcome',
@@ -17,8 +15,7 @@
     },
     components: {
       WorkTablePager,
-      WorkMain,
-      JobList
+      WorkMain
     },
     methods: {
 
