@@ -1,102 +1,110 @@
 <template>
-  <WorkMain :headerItems="['用户管理','用户列表']">
+  <WorkMain :headerItems="['联系人管理']">
     <el-row class="search-row" :gutter="20">
       <el-col class="align-left" :span="17">
-        <el-input placeholder="请输入待查询用户名" style="width:180px"  v-model="seachUserId"></el-input>
-        <el-button @click="getTableData(1)" >查询</el-button>
-        <el-button @click="openAddModal" type="primary">新增</el-button>
+        <el-button @click="openAddModal" type="primary" icon="plus-circle">新增信息联系人</el-button>
       </el-col>
     </el-row>
 
     <el-row class="table-page-root-outoptions">
       <el-col :span="24">
         <el-table
-          :data="userDataList"
+          :data="dataList"
           header-row-class-name="table-header-style"
           row-class-name="mini-font-size" stripe
           style="width: 100%">
           <el-table-column
-            prop="user_name"
-            align="left"
-            label="用户名称">
+            type="index"
+            width="50">
           </el-table-column>
           <el-table-column
-            prop="user_name_cn"
+            prop="name"
             align="left"
-            label="用户名称">
+            label="联系人姓名">
           </el-table-column>
           <el-table-column
-            prop="reg_date"
+            prop="tel"
             align="left"
-            label="注册日期">
+            label="联系人电话">
           </el-table-column>
           <el-table-column
-            prop="last_login_time"
+            prop="email"
             align="left"
-            label="最后登入日期">
+            label="联系人邮箱">
           </el-table-column>
           <el-table-column
             label="操作"
             align="center">
             <template slot-scope="scope">
               <el-button type="text" @click="openEditModal(scope.row)" size="mini">编辑</el-button>
-              <el-button type="text" @click="openAuthModal(scope.row)" size="mini">权限</el-button>
-              <el-button type="text" @click="resetPwd(scope.row)" size="mini">重置密码</el-button>
+              <el-button type="text" @click="see(scope.row)" size="mini">查看</el-button>
               <el-button type="text" @click="delUser(scope.row)" size="mini">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-col>
     </el-row>
-
-    <!-- 分页 refreshData:点击页码上一页下一页时调用的方法、pageCount:总页数-->
-    <WorkTablePager @refreshData="getTableData"
-                    :pageCount="totalPage">
-    </WorkTablePager>
-
-    <!-- 新增、编辑 弹窗-->
-    <el-dialog :title="modalPageTitle" :visible.sync="showModalPage" >
-      <el-form  class="modal-form" label-position="left" label-width="20%" :model="formData">
-        <!--
-        <el-form-item :size="mini" label="用户登陆名" >
-          <el-input   auto-complete="off" ></el-input>
+    <!-- 新增 弹窗-->
+    <el-dialog :title="modalPageTitle" :visible.sync="addShowModalPage" >
+      <el-form  class="modal-form" label-position="left" label-width="20%" :model="addformData">
+        <el-form-item size="mini" label="联系人姓名">
+          <el-input v-model="addformData.contacts_name" auto-complete="off" ></el-input>
         </el-form-item>
-        -->
-        <el-form-item size="mini" label="用户名称" >
-          <el-input v-model="formData.user_name" auto-complete="off" ></el-input>
+        <el-form-item size="mini" label="联系人电话">
+          <el-input v-model="addformData.contacts_tel" auto-complete="off" ></el-input>
         </el-form-item>
-
-        <el-form-item size="mini" label="用户类型" >
-          <el-select v-model="formData.user_type" style="width:100%;" placeholder="请选择用户类型">
-            <el-option label="管理员" value='1'></el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item size="mini" label="用户状态" >
-          <el-select v-model="formData.user_status" style="width:100%;" placeholder="请选择用户状态">
-            <el-option label="正常" value='0'></el-option>
-            <el-option label="锁定" value='1'></el-option>
-            <el-option label="密码过期" value="3"></el-option>
-            <el-option label="停用" value='4'></el-option>
-          </el-select>
+        <el-form-item size="mini" label="联系人邮箱">
+          <el-input v-model="addformData.contacts_email" auto-complete="off" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeModal">取 消</el-button>
-        <el-button type="primary" @click="submitDataForm()">确 定</el-button>
+        <el-button type="primary" @click="addSubmitDataForm()">确 定</el-button>
       </div>
     </el-dialog>
 
-    <!--用户权限设置-->
-    <el-dialog title="用户权限" :visible.sync="showUserAuth" >
-      <el-form  class="modal-form" label-position="left" label-width="20%" :model="formData">
-        <el-form-item size="mini" label="用户名称" >
-          <el-input :disabled="true"  :value="formData.user_name" auto-complete="off" ></el-input>
+    <!-- 编辑 弹窗-->
+    <el-dialog :title="modalPageTitle" :visible.sync="editShowModalPage" >
+      <el-form  class="modal-form" label-position="left" label-width="22%" :model="editformData">
+        <el-form-item size="mini" label="联系人姓名" >
+          <el-input v-model="editformData.contacts_name" auto-complete="off" ></el-input>
         </el-form-item>
-        <el-form-item size="mini" label="角色" >
-          <el-select v-model="user_role_id" style="width:100%;" placeholder="请选择角色">
-            <el-option :key="roleData.user_role_id" v-for="roleData in allRoleList" :label="roleData.user_role_name" :value="roleData.user_role_id"></el-option>
-          </el-select>
+        <el-form-item size="mini" label="联系人电话" >
+          <el-input v-model="editformData.contacts_tel" auto-complete="off" ></el-input>
+        </el-form-item>
+        <el-form-item size="mini" label="联系人邮箱" >
+          <el-input v-model="editformData.contacts_email" auto-complete="off" ></el-input>
+        </el-form-item>
+        <el-form-item size="mini" label="创建时间" >
+          <el-input v-model="editformData.createdTime" auto-complete="off" disabled></el-input>
+        </el-form-item>
+        <el-form-item size="mini" label="最后修改时间" >
+          <el-input v-model="editformData.lastEditTime" auto-complete="off" disabled></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="closeModal">取 消</el-button>
+        <el-button type="primary" @click="editSubmitDataForm()">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <!--查看弹窗-->
+    <el-dialog title="用户权限" :visible.sync="showUserAuth" >
+      <el-form  class="modal-form" label-position="left" label-width="22%" :model="seeformData">
+        <el-form-item size="mini" label="联系人姓名" >
+          <el-input v-model="seeformData.contacts_name" auto-complete="off" disabled></el-input>
+        </el-form-item>
+        <el-form-item size="mini" label="联系人电话" >
+          <el-input v-model="seeformData.contacts_tel" auto-complete="off" disabled></el-input>
+        </el-form-item>
+        <el-form-item size="mini" label="联系人邮箱" >
+          <el-input v-model="seeformData.contacts_email" auto-complete="off" disabled></el-input>
+        </el-form-item>
+        <el-form-item size="mini" label="创建时间" >
+          <el-input v-model="seeformData.createdTime" auto-complete="off" disabled></el-input>
+        </el-form-item>
+        <el-form-item size="mini" label="最后修改时间" >
+          <el-input v-model="seeformData.lastEditTime" auto-complete="off" disabled></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -108,7 +116,6 @@
 </template>
 
 <script>
-  import WorkTablePager from '@/models/public/WorkTablePager'
   import WorkMain from '@/models/public/WorkMain'
   import { required } from 'vuelidate/lib/validators'
   import Treeselect from '@riophae/vue-treeselect'
@@ -118,27 +125,58 @@
     name: 'UserMain',
     data () {
       return {
-        userDataList: [],
+        dataList: [
+          {
+            name: '王文平',
+            tel: '18511796131',
+            email: 'wangwenping@sunline.com'
+          },{
+            name: '王文平',
+            tel: '18511796131',
+            email: 'wangwenping@sunline.com'
+          },{
+            name: '王文平',
+            tel: '18511796131',
+            email: 'wangwenping@sunline.com'
+          },{
+            name: '王文平',
+            tel: '18511796131',
+            email: 'wangwenping@sunline.com'
+          }
+        ],
         originList: [],
         seachOriginList: [],
         searchOriginName: '',
         userType: 1,
-        seachUserId: null,
         seachOriginId: null,
         tableDataUrl: 'sys/user/listUserPage',
         currPageNum: 1,
         totalPage: 1,
-        showModalPage: false,
+        editShowModalPage: false,
+        addShowModalPage: false,
         isEditModal: false,
         showUserAuth: false,
         showOrigin: false,
         allRoleList: [],
         user_role_id: '',
-        formData: {
-          user_id:null,
-          user_name: null,
-          user_type: null,
-          user_status: null,
+        addformData: {
+          contacts_name: null,
+          contacts_tel: null,
+          contacts_email: null,
+        },
+        editformData: {
+          contacts_name: null,
+          contacts_tel: null,
+          contacts_email: null,
+          createdTime:null,
+          lastEditTime:null,
+        },
+        seeformData: {
+          contacts_name: null,
+          contacts_tel: null,
+          contacts_email: null,
+          createdTime:null,
+          lastEditTime:null,
         },
         options:[]
 
@@ -160,43 +198,15 @@
     computed: {
       modalPageTitle () {
         if (this.isEditModal) {
-          return '修改用户'
-        } else { return '新增用户' }
+          return '修改联系人'
+        } else { return '新增联系人' }
       }
     },
     components: {
       Treeselect,
-      WorkTablePager,
       WorkMain
     },
     methods: {
-      getTableData: function (pageNum) {
-        if (pageNum && pageNum !== '') {
-          this.currPageNum = pageNum
-        } else {
-          pageNum = this.currPageNum
-        }
-        const $this = this
-        let seachOriginId = null
-        if(this.seachOriginList!=null&&this.seachOriginList.length>0){
-          seachOriginId = this.seachOriginList[this.seachOriginList.length-1]
-        }
-        if(this.seachUserId==null||this.seachUserId==''){
-          this.seachUserId = ""
-        }
-        this.BaseRequest({
-          url: this.tableDataUrl,
-          method: 'get',
-          params: {currPage: pageNum,
-            pageSize: 10,
-            user_name_cn: this.seachUserId,
-            searchOriginName: this.searchOriginName,
-            searchOriginId:seachOriginId}
-        }).then(reponse => {
-          $this.totalPage = reponse.totalPage
-          $this.refreshTableList(reponse.dataList)
-        })
-      },
       refreshTableList: function (dataList) {
         this.userDataList = dataList
       },
@@ -212,16 +222,15 @@
             method: 'get',
             params: {'user_id': row.user_id}
           }).then(() => {
-            this.Message.success('删除成功')
-            this.getTableData()
+            this.Message.success('删除成功');
           })
         }).catch(() => {
         })
       },
-      openAddModal: function () {
-        this.clearData()
-        this.showModalPage = true
-        this.isEditModal = false
+      openAddModal: function () {//新增
+        this.clearData();
+        this.addShowModalPage = true;
+        this.isEditModal = false;
       },
       clearData: function () {
         this.formData = {
@@ -231,51 +240,21 @@
           user_type: null
         }
       },
-      openEditModal: function (row) { // user edit
-        this.clearData()
-        this.showModalPage = true
-        this.isEditModal = true
-        this.formData.user_name = row.user_name
-        this.formData.user_id = row.user_id
-        this.formData.user_status = row.user_status
-        this.formData.user_type = row.user_type
+      openEditModal: function (row) {//编辑
+        this.clearData();
+        this.editShowModalPage = true;
+        this.isEditModal = true;
+        this.editformData.contacts_name = row.name;
+        this.editformData.contacts_tel = row.tel;
+        this.editformData.contacts_email = row.email;
+        this.editformData.createdTime = row.user_type;
+        this.editformData.lastEditTime = row.user_type;
       },
-      resetPwd(row){
-        const userId = row.user_id
-        this.$confirm('确定将该用户密码重置？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          dangerouslyUseHTMLString:true,
-          type: 'warning'
-        }).then(() => {
-          const loading = this.$loading({
-            lock: true,
-            text: '删除中',
-            spinner: 'el-icon-loading',
-            background: 'rgba(0, 0, 0, 0.7)'
-          });
-
-          this.BaseRequest({
-            url:'cqnyUser/resetPwd',
-            method:'get',
-            params:{'userId':userId}
-          }).then(response=>{
-            this.Message.success("重置成功")
-            loading.close()
-            this.getTableData(1)
-          }).catch(error=>{
-            console.log(error)
-            loading.close()
-            this.Message.error("重置失败"+error)
-          })
-        }).catch(() => {
-        });
-      },
-      submitDataForm: function () { // user submit
+      addSubmitDataForm: function () {//新增弹窗
         if (this.checkInputNull()) {
           return
         }
-        if (this.isEditModal) { // update
+        if (this.isEditModal) {
           this.BaseRequest({
             url: 'sys/user/updateSaveUser',
             method: 'POST',
@@ -285,11 +264,9 @@
               'user_status': this.formData.user_status}
           }).then(() => {
             this.Message.success('保存成功')
-            // add user——origin relation
-            this.getTableData()
             this.closeModal()
           })
-        } else { // insert
+        } else {
           this.BaseRequest({
             url: 'sys/user/saveNewUser',
             method: 'get',
@@ -298,71 +275,99 @@
               'user_type': this.formData.user_type,
               'user_status': this.formData.user_status}
           }).then((response) => {
-            this.Message.success('保存成功')
-            // add user——origin relation
-            this.formData.user_id = response.user_id
-            this.getTableData()
-            this.closeModal()
+            this.Message.success('保存成功');
+            this.formData.user_id = response.user_id;
+            this.closeModal();
           })
         }
       },
-      openAuthModal: function (row) { // edit
-        const $this = this
-        this.showUserAuth = true
-        // this.formData = row
-        this.formData.user_id = row.user_id
-        this.formData.user_name = row.user_name
+      editSubmitDataForm: function () {//编辑弹窗
+        if (this.checkInputNull()) {
+          return
+        }
+        if (this.isEditModal) {
+          this.BaseRequest({
+            url: 'sys/user/updateSaveUser',
+            method: 'POST',
+            data: {'user_name': this.formData.user_name,
+              'user_id': this.formData.user_id,
+              'user_type': this.formData.user_type,
+              'user_status': this.formData.user_status}
+          }).then(() => {
+            this.Message.success('保存成功')
+            this.closeModal()
+          })
+        } else {
+          this.BaseRequest({
+            url: 'sys/user/saveNewUser',
+            method: 'get',
+            params: {'user_name': this.formData.user_name,
+              'user_id': this.formData.user_id,
+              'user_type': this.formData.user_type,
+              'user_status': this.formData.user_status}
+          }).then((response) => {
+            this.Message.success('保存成功');
+            this.formData.user_id = response.user_id;
+            this.closeModal();
+          })
+        }
+      },
+      see: function (row) { //查看
+        const $this = this;
+        this.showUserAuth = true;
+        this.formData.user_id = row.user_id;
+        this.formData.user_name = row.user_name;
         this.BaseRequest({
           url: 'sys/userRole/getRoleByUserId',
           method: 'get',
           params: {user_id: this.formData.user_id}
         }).then(response => {
           if (response != null && response.length > 0) {
-            // set value for update
             $this.user_role_id = response[0]['user_role_id']
             $this.formData.user_role_id = response[0]['user_role_id']
           }
         })
       },
-      saveUserRole: function () { // 权限保存修改
+      saveUserRole: function () {//查看弹窗
         this.BaseRequest({
           url: 'sys/userRole/updateUserRole',
           method: 'get',
           params: {user_id: this.formData.user_id, user_role_id: this.user_role_id, old_user_role_id: this.formData.user_role_id}
         }).then(() => {
-          this.Message.success('保存成功')
-          this.showUserAuth = false
+          this.Message.success('保存成功');
+          this.showUserAuth = false;
         })
       },
       closeModal: function () {
-        this.showModalPage = false
-        this.isEditModal = false
+        this.addShowModalPage = false;
+        this.editShowModalPage = false;
+        this.seeShowModalPage = false;
+        this.isEditModal = false;
       },
       closeUserAuthModal: function () {
-        this.showUserAuth = false
+        this.showUserAuth = false;
       },
 
       checkInputNull () {
-        const checkResult = this.$v.$invalid
+        const checkResult = this.$v.$invalid;
         if (checkResult) {
           this.$notify({
             dangerouslyUseHTMLString: true,
-            message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数不允许为空</span><br>用户名称、所属机构'
+            message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数不允许为空</span><br>联系人姓名、电话、邮箱'
           })
         }
-        return checkResult
+        return checkResult;
       }
     },
     mounted: function () {
-      this.userDataList = []
-      this.getTableData(1)
-      const $this = this
+      this.userDataList = [];
+      const $this = this;
       this.BaseRequest({
         url: 'sys/role/rolePageData',
         method: 'get',
         params: {currPage: 1, pageSize: 100}
       }).then(response => {
-        $this.allRoleList = response.dataList
+        $this.allRoleList = response.dataList;
       })
     }
   }

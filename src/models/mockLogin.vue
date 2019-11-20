@@ -11,13 +11,14 @@
     methods: {
     },
     mounted(){
-      this.$http({
-        url:process.env.BASE_API+"/sys/cqNyCasLogin/mockLogin.do",
-        timeout: 20000, // 请求超时时间 20秒,
-        withCredentials:true
-      }).then(response=>{
-        this.$router.push({'path':'/home'})
-      })
+      this.$router.push({'path':'/home'})
+      // this.$http({
+      //   url:process.env.BASE_API+"/sys/cqNyCasLogin/mockLogin.do",
+      //   timeout: 20000, // 请求超时时间 20秒,
+      //   withCredentials:true
+      // }).then(response=>{
+      //   this.$router.push({'path':'/home'})
+      // })
     }
   }
 </script>
