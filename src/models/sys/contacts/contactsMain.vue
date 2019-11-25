@@ -72,19 +72,19 @@
     <!-- 编辑 弹窗-->
     <el-dialog title="修改联系人信息" :visible.sync="editShowModalPage" >
       <el-form  class="modal-form" label-position="left" label-width="22%" :model="editformData">
-        <el-form-item size="mini" label="联系人姓名" >
+        <el-form-item size="mini" label="联系人姓名">
           <el-input v-model="editformData.contacts_name" auto-complete="off" ></el-input>
         </el-form-item>
-        <el-form-item size="mini" label="联系人电话" >
+        <el-form-item size="mini" label="联系人电话">
           <el-input v-model="editformData.contacts_tel" auto-complete="off" ></el-input>
         </el-form-item>
-        <el-form-item size="mini" label="联系人邮箱" >
+        <el-form-item size="mini" label="联系人邮箱">
           <el-input v-model="editformData.contacts_email" auto-complete="off" ></el-input>
         </el-form-item>
-        <el-form-item size="mini" label="创建时间" >
+        <el-form-item size="mini" label="创建时间">
           <el-input v-model="editformData.createdTime" auto-complete="off" disabled></el-input>
         </el-form-item>
-        <el-form-item size="mini" label="最后修改时间" >
+        <el-form-item size="mini" label="最后修改时间">
           <el-input v-model="editformData.lastEditTime" auto-complete="off" disabled></el-input>
         </el-form-item>
       </el-form>
@@ -100,16 +100,16 @@
         <el-form-item size="mini" label="联系人姓名" >
           <el-input v-model="seeformData.contacts_name" auto-complete="off" disabled></el-input>
         </el-form-item>
-        <el-form-item size="mini" label="联系人电话" >
+        <el-form-item size="mini" label="联系人电话">
           <el-input v-model="seeformData.contacts_tel" auto-complete="off" disabled></el-input>
         </el-form-item>
-        <el-form-item size="mini" label="联系人邮箱" >
+        <el-form-item size="mini" label="联系人邮箱">
           <el-input v-model="seeformData.contacts_email" auto-complete="off" disabled></el-input>
         </el-form-item>
-        <el-form-item size="mini" label="创建时间" >
+        <el-form-item size="mini" label="创建时间">
           <el-input v-model="seeformData.createdTime" auto-complete="off" disabled></el-input>
         </el-form-item>
-        <el-form-item size="mini" label="最后修改时间" >
+        <el-form-item size="mini" label="最后修改时间">
           <el-input v-model="seeformData.lastEditTime" auto-complete="off" disabled></el-input>
         </el-form-item>
       </el-form>
@@ -134,7 +134,6 @@
       return {
         dataList: [],
         originList: [],
-        seachOriginList: [],
         searchOriginName: '',
         userType: 1,
         seachOriginId: null,
@@ -199,6 +198,7 @@
         } else {
           pageNum = this.currPageNum;
         }
+        const $this = this;
         this.BaseRequest({
             url: '/contact/pageContact',
             method: 'get',
@@ -207,29 +207,11 @@
               'pageSize': 10,
             }
         }).then((response) => {
-          console.log(response,"ss")
+          console.log(response,"返回的数据")
+          // $this.totalPage = reponse.totalPage;
+          // this.dataList = reponse.List.dataList;
+          // $this.refreshTableList(reponse.List.dataList);
         })
-        // const $this = this;
-        // let seachOriginId = null;
-        // if(this.seachOriginList!=null&&this.seachOriginList.length>0){
-        //   seachOriginId = this.seachOriginList[this.seachOriginList.length-1]
-        // }
-        // if(this.seachUserId==null||this.seachUserId==''){
-        //   this.seachUserId = "";
-        // }
-        // this.BaseRequest({
-        //   url: "/contact/pageContact",
-        //   method: 'get',
-        //   params: {
-        //     currPage: pageNum,
-        //     pageSize: 10,
-        //   }
-        // }).then(response => {
-        //   console.log(response,"ss")
-        //   // $this.totalPage = reponse.totalPage;
-        //   // this.dataList = reponse.List.dataList;
-        //   // $this.refreshTableList(reponse.List.dataList);
-        // })
       },
       // refreshTableList: function (dataList) {
       //   // this.dataList = dataList;

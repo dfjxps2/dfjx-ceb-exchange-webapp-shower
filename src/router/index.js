@@ -57,6 +57,21 @@ const routes = [
             name: 'role',
             path: '/sys/role',
             component: () => import('@/models/sys/role/roleMain')
+          },
+          { 
+            name: 'contacts',
+            path: '/sys/contacts',
+            component: () => import('@/models/sys/contacts/contactsMain')//联系人管理
+          },
+          {
+            name: 'dataConsumptionPlan',
+            path: '/sys/dataConsumptionPlan',
+            component: () => import('@/models/sys/dataConsumptionPlan/consumptionMain')//数据消费计划
+          },
+          {
+            name: 'dataProductionPlan',
+            path: '/sys/dataProductionPlan',
+            component: () => import('@/models/sys/dataProductionPlan/productionMain')//数据生产计划
           }
         ]
       }

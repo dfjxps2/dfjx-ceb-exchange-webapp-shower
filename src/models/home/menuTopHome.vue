@@ -9,9 +9,9 @@
         </el-col>
         <el-col :span="13">
           <el-menu :default-active="activeIndex" mode="horizontal" @select="select">
-            <el-submenu v-if="menu.name" v-for="(menu, index) in menuList" :index="menu.id+''">
+            <el-submenu v-if="menu.name" v-for="(menu, index) in menuList" :index="menu.id+''" :key="index">
               <template slot="title">{{menu.name}}</template>
-              <el-menu-item v-if="menu.children.length > 0" v-for="(item,ind) in menu.children" :index="item.id+''" @click="toLink(item.url)">{{item.name}}</el-menu-item>
+              <el-menu-item v-if="menu.children.length > 0" v-for="(item,ind) in menu.children" :index="item.id+''" :key="ind" @click="toLink(item.url)" >{{item.name}}</el-menu-item>
             </el-submenu>
           </el-menu>
         </el-col>
