@@ -72,6 +72,16 @@ const routes = [
             name: 'dataProductionPlan',
             path: '/sys/dataProductionPlan',
             component: () => import('@/models/sys/dataProductionPlan/productionMain')//数据生产计划
+          },
+          {
+            name: 'dataAdministration',
+            path: '/sys/dataAdministration',
+            component: () => import('@/models/sys/dataAdministration/administrationMain')//数据集管理
+          },
+          {
+            name: 'appProjectAdministration',
+            path: '/sys/appProjectAdministration',
+            component: () => import('@/models/sys/appProjectAdministration/projectMain')//应用项目管理
           }
         ]
       }

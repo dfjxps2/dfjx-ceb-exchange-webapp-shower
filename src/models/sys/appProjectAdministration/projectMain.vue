@@ -1,8 +1,8 @@
 <template>
-  <WorkMain :headerItems="['联系人管理']">
+  <WorkMain :headerItems="['应用项目管理']">
     <el-row :gutter="20">
       <el-col class="align-left spaceValue" :span="17">
-            <el-button @click="openAddModal" type="primary">新增数据消费计划</el-button>
+            <el-button @click="openAddModal" type="primary">新增应用项目</el-button>
       </el-col>
       <el-col :span="24">
         <el-table
@@ -23,21 +23,21 @@
                 header-align="center"
                 align="center"
                 show-overflow-tooltip
-                label="联系人姓名">
+                label="应用名称">
             </el-table-column>
             <el-table-column
                 prop="mobile_phone"
                 header-align="center"
                 align="center"
                 show-overflow-tooltip
-                label="联系人电话">
+                label="应用标识">
             </el-table-column>
             <el-table-column
                 prop="email"
                 header-align="center"
                 align="center"
                 show-overflow-tooltip
-                label="联系人邮箱">
+                label="联系人">
             </el-table-column>
             <el-table-column
                 label="操作"
@@ -60,24 +60,33 @@
     </el-row>
 
     <!-- 新增 弹窗-->
-    <el-dialog title="新增联系人信息" :visible.sync="addShowModalPage" >
-      <el-form  class="modal-form" label-position="left" label-width="22%" :model="addformData">
+    <el-dialog title="新增应用项目" :visible.sync="addShowModalPage" >
+      <el-form  class="modal-form" label-position="left" label-width="25%" :model="addformData">
         <div class="boxForm_item">
             <span class="colorRed">*</span>
-            <el-form-item size="mini" label="联系人姓名：" >
-              <el-input v-model="addformData.contacts_name" auto-complete="off" ></el-input>
-            </el-form-item>
+          <el-form-item size="mini" label="应用项目标识：">
+            <el-input v-model="addformData.project_label" auto-complete="off" ></el-input>
+          </el-form-item>
         </div>
         <div class="boxForm_item">
             <span class="colorRed">*</span>
-            <el-form-item size="mini" label="联系人电话：">
-              <el-input v-model="addformData.contacts_tel" auto-complete="off" ></el-input>
-            </el-form-item>
+          <el-form-item size="mini" label="应用项目名称：">
+            <el-input v-model="addformData.project_name" auto-complete="off" ></el-input>
+          </el-form-item>
         </div>
         <div class="boxForm_item">
             <span class="colorRed">*</span>
-            <el-form-item size="mini" label="联系人邮箱：">
-              <el-input v-model="addformData.contacts_email" auto-complete="off" ></el-input>
+          <el-form-item size="mini" label="联系人：">
+              <el-select size="mini"  style="width:340px;" v-model="addformData.contact_people" placeholder="请选择联系人" clearable filterable >
+                  <el-option v-for="item in projectOPtion" :key="item.id" :label="item.name" :value="item.id">
+                  </el-option>
+              </el-select>
+          </el-form-item>
+        </div>
+        <div class="boxForm_item">
+            <span class="colorRed">*</span>
+            <el-form-item size="mini" label="应用项目说明：">
+              <el-input v-model="addformData.project_Explain" auto-complete="off" type="textarea" autosize></el-input>
             </el-form-item>
         </div>
       </el-form>
@@ -88,25 +97,34 @@
     </el-dialog>
 
     <!-- 编辑 弹窗-->
-    <el-dialog title="修改联系人信息" :visible.sync="editShowModalPage" >
+    <el-dialog title="修改应用项目" :visible.sync="editShowModalPage" >
       <el-form  class="modal-form" label-position="left" label-width="25%" :model="editformData">
         <div class="boxForm_item">
-          <span class="colorRed">*</span>
-          <el-form-item size="mini" label="联系人姓名：">
-            <el-input v-model="editformData.contacts_name" auto-complete="off" ></el-input>
-          </el-form-item>
+            <span class="colorRed">*</span>
+            <el-form-item size="mini" label="应用项目标识：">
+              <el-input v-model="editformData.project_label" auto-complete="off" ></el-input>
+            </el-form-item>
         </div>
         <div class="boxForm_item">
-          <span class="colorRed">*</span>
-          <el-form-item size="mini" label="联系人电话：">
-            <el-input v-model="editformData.contacts_tel" auto-complete="off" ></el-input>
-          </el-form-item>
+            <span class="colorRed">*</span>
+            <el-form-item size="mini" label="应用项目名称：">
+              <el-input v-model="editformData.project_name" auto-complete="off" ></el-input>
+            </el-form-item>
         </div>
         <div class="boxForm_item">
-          <span class="colorRed">*</span>
-          <el-form-item size="mini" label="联系人邮箱：">
-            <el-input v-model="editformData.contacts_email" auto-complete="off" ></el-input>
-          </el-form-item>
+            <span class="colorRed">*</span>
+            <el-form-item size="mini" label="联系人：">
+                <el-select size="mini"  style="width:340px;" v-model="editformData.contact_people" placeholder="请选择联系人" clearable filterable >
+                    <el-option v-for="item in projectOPtion" :key="item.id" :label="item.name" :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+        </div>
+        <div class="boxForm_item">
+            <span class="colorRed">*</span>
+            <el-form-item size="mini" label="应用项目说明：">
+              <el-input v-model="editformData.project_Explain" auto-complete="off" type="textarea" autosize ></el-input>
+            </el-form-item>
         </div>
         <el-form-item size="mini" label="创建时间：">
           <el-input v-model="editformData.createdTime" auto-complete="off" disabled></el-input>
@@ -116,22 +134,25 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="closeModal">取 消</el-button>
+        <el-button @click="editShowModalPage = false">取 消</el-button>
         <el-button type="primary" @click="editSubmitDataForm()">保 存</el-button>
       </div>
     </el-dialog>
 
     <!--查看弹窗-->
-    <el-dialog title="查看联系人信息" :visible.sync="seeShowModalPage" >
+    <el-dialog title="查看应用项目" :visible.sync="seeShowModalPage" >
       <el-form  class="modal-form" label-position="left" label-width="22%" :model="seeformData">
-        <el-form-item size="mini" label="联系人姓名：" >
-          <el-input v-model="seeformData.contacts_name" auto-complete="off" disabled></el-input>
+        <el-form-item size="mini" label="应用项目标识：">
+          <el-input v-model="seeformData.project_label" auto-complete="off" disabled></el-input>
         </el-form-item>
-        <el-form-item size="mini" label="联系人电话：">
-          <el-input v-model="seeformData.contacts_tel" auto-complete="off" disabled></el-input>
+        <el-form-item size="mini" label="应用项目名称：">
+          <el-input v-model="seeformData.project_name" auto-complete="off" disabled></el-input>
         </el-form-item>
-        <el-form-item size="mini" label="联系人邮箱：">
-          <el-input v-model="seeformData.contacts_email" auto-complete="off" disabled></el-input>
+        <el-form-item size="mini" label="联系人：">
+          <el-input v-model="seeformData.contact_people" auto-complete="off" disabled></el-input>
+        </el-form-item>
+        <el-form-item size="mini" label="应用项目说明：">
+          <el-input v-model="seeformData.project_Explain" auto-complete="off" type="textarea" autosize disabled></el-input>
         </el-form-item>
         <el-form-item size="mini" label="创建时间：">
           <el-input v-model="seeformData.createdTime" auto-complete="off" disabled></el-input>
@@ -155,7 +176,7 @@
   import '@riophae/vue-treeselect/dist/vue-treeselect.css';
 
   export default {
-    name: 'contactsMain',
+    name: 'projectMain',
     data () {
       return {
         dataListLoading: false,
@@ -168,24 +189,32 @@
         addShowModalPage: false,
         seeShowModalPage: false,
         addformData: {
-          contacts_name: null,
-          contacts_tel: null,
-          contacts_email: null,
+          project_name: null,
+          project_label: null,
+          contact_people: null,
+          project_Explain: null,
         },
         editformData: {
-          contacts_name: null,
-          contacts_tel: null,
-          contacts_email: null,
+          project_name: null,
+          project_label: null,
+          contact_people: null,
+          project_Explain: null,
           createdTime:null,
           lastEditTime:null,
         },
         seeformData: {
-          contacts_name: null,
-          contacts_tel: null,
-          contacts_email: null,
+          project_name: null,
+          project_label: null,
+          contact_people: null,
+          project_Explain: null,
           createdTime:null,
           lastEditTime:null,
         },
+        projectOPtion:[
+            {name:"项目一",id:0},
+            {name:"项目二",id:1},
+            {name:"项目三",id:2},
+        ],
         page_res:{},
       }
     },
@@ -213,7 +242,6 @@
                 'pageSize': 10,
                 }
             }).then((response) => {
-              console.log(response)
               if (response) {
                   if(this.page_res[this.pageIndex]){
                       this.dataList = this.page_res[this.pageIndex];
@@ -241,46 +269,48 @@
         },
         delUser: function (row) {//删除
             this.$confirm('确定删除用户【' + row.user_name + '】？', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            dangerouslyUseHTMLString: true,
-            type: 'warning'
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                dangerouslyUseHTMLString: true,
+                type: 'warning'
             }).then(() => {
-            this.BaseRequest({
-                url: '/contact/delpageContact',    
-                method: 'get',
-                params: {'user_id': row.user_id}
-            }).then((res) => {
-                if(res == "success"){
-                this.Message.success('删除成功');
-                this.getTableData(1);
-                }
-            })
+                this.BaseRequest({
+                    url: '/contact/delpageContact',    
+                    method: 'get',
+                    params: {'user_id': row.user_id}
+                }).then((res) => {
+                    if(res == "success"){
+                    this.Message.success('删除成功');
+                    this.getTableData(1);
+                    }
+                })
             })
         },
         openAddModal: function () {//新增
             this.addShowModalPage = true;
         },
         addSubmitDataForm: function () {//新增弹窗
-            if (this.addformData.contacts_name == null || this.addformData.contacts_tel == null || this.addformData.contacts_email == null) {
+            if (this.addformData.project_name == null || this.addformData.project_label == null  
+             || this.addformData.contact_people == null || this.addformData.project_Explain == null) {
                 this.$notify({
                     dangerouslyUseHTMLString: true,       
-                    message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数不允许为空</span><br>联系人姓名、电话、邮箱'
+                    message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数不允许为空</span><br>应用项目标识、应用项目名称、联系人、应用项目说明'
                 })
             }else{
                 this.BaseRequest({
                     url: '/contact/insertpageContact',
                     method: 'get',
                     params: {
-                    'user_name': this.addformData.contacts_name,
-                    'mobile_phone': this.addformData.contacts_tel,
-                    'email': this.addformData.contacts_email,
+                    'user_name': this.addformData.project_name,
+                    'mobile_phone': this.addformData.project_label,
+                    'email': this.addformData.contact_people,
+                    'email': this.addformData.project_Explain,
                     }
                 }).then((res) => {
                     if(res == "success"){
-                    this.Message.success('保存成功')
-                    this.getTableData(1);
-                    this.closeModal();
+                        this.Message.success('保存成功')
+                        this.getTableData(1);
+                        this.closeModal();
                     }
                 })
             }
@@ -288,33 +318,35 @@
         openEditModal: function (row) {//编辑
             this.editShowModalPage = true;
             this.user_id = row.user_id;
-            this.editformData.contacts_name = row.user_name;
-            this.editformData.contacts_tel = row.mobile_phone;
-            this.editformData.contacts_email = row.email;
-            this.editformData.createdTime = row.reg_date;
+            this.editformData.project_name = row.user_name;
+            this.editformData.project_label = row.mobile_phone;
+            this.editformData.contact_people = row.email;
+            this.editformData.project_Explain = row.email;
+            this.editformData.createdTime = row.last_login_time;
             this.editformData.lastEditTime = row.last_login_time;
         },
         editSubmitDataForm: function () {//编辑弹窗 
-            if (this.editformData.contacts_name == null || this.editformData.contacts_tel == null || this.editformData.contacts_email == null) {
+            if (this.editformData.project_name == null || this.editformData.project_label == null 
+             || this.editformData.contact_people == null || this.editformData.project_Explain == null) {
                 this.$notify({
                     dangerouslyUseHTMLString: true,       
-                    message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数不允许为空</span><br>联系人姓名、电话、邮箱'
+                    message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数不允许为空</span><br>应用项目标识、应用项目名称、联系人、应用项目说明'
                 })
             }else{
                 this.BaseRequest({
                     url: '/contact/updatepageContact',
                     method: 'get',
                     params: {
-                    'user_id': this.user_id,
-                    'user_name': this.editformData.contacts_name,
-                    'mobile_phone': this.editformData.contacts_tel,
-                    'email': this.editformData.contacts_email
+                        'user_id': this.user_id,
+                        'user_name': this.editformData.project_name,
+                        'mobile_phone': this.editformData.project_label,
+                        'email': this.editformData.contact_people,
+                        'email': this.editformData.project_Explain
                     }
                 }).then((res) => {
                     if(res == "success"){
-                      this.Message.success('修改成功');
-                      this.getTableData(1);
-                      this.closeModal();
+                        this.Message.success('修改成功');
+                        this.getTableData(1);
                     }
                 })
             }
@@ -323,31 +355,33 @@
             const $this = this;
             this.seeShowModalPage = true;
             this.BaseRequest({
-              url: '/contact/pageContactselect',
-              method: 'get',
-              params: {
-                  'user_id': row.user_id,
-              }
+                url: '/contact/pageContactselect',
+                method: 'get',
+                params: {
+                    'user_id': row.user_id,
+                }
             }).then((res) => {
-              var resJson = res[0];
-              this.seeformData.contacts_name = resJson.user_name;
-              this.seeformData.contacts_tel = resJson.mobile_phone;
-              this.seeformData.contacts_email = resJson.email;
-              this.seeformData.createdTime = resJson.reg_date;
-              this.seeformData.lastEditTime = resJson.last_login_time;
+                var resJson = res[0];
+                this.seeformData.project_name = resJson.user_name;
+                this.seeformData.project_label = resJson.mobile_phone;
+                this.seeformData.contact_people = resJson.email;
+                this.seeformData.project_Explain = resJson.email;
+                this.seeformData.createdTime = resJson.reg_date;
+                this.seeformData.lastEditTime = resJson.last_login_time;
             })
         },
         closeModal: function () {
             this.addShowModalPage = false;
             this.editShowModalPage = false;
             this.seeShowModalPage = false;
-            this.addformData.contacts_name = "";
-            this.addformData.contacts_tel = "";
-            this.addformData.contacts_email = "";
+            this.addformData.project_name = "";
+            this.addformData.project_label = "";
+            this.addformData.contact_people = "";
+            this.addformData.project_Explain = "";
         },
     },
     mounted: function () {
-      this.getTableData();
+      this.getTableData(1);
     }
   }
 </script>
