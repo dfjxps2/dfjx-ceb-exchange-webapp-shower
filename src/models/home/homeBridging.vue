@@ -14,7 +14,7 @@
     components:{TopMenuHome,LeftMenuHome},
     data() {
       let menuList = [];
-      const sysNameStr = "互联网采集";
+      const sysNameStr = "文件交换系统";
       return {
         sysNameStr: sysNameStr,
         menuList : menuList,
