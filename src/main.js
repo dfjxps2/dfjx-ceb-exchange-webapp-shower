@@ -2,6 +2,7 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import '@/element-ui-theme'
 import VueRouter from "vue-router";
+import cookie from 'vue-cookie';
 import { Message } from 'element-ui';
 import {SemanticAnalysisRequest,SemanticAnalysisBaseRequest} from '@/utils'
 import router from "./router"
@@ -24,6 +25,7 @@ Vue.use(vueParticleLine)
 import "@/styles/index.scss"
 
 Vue.use(VueRouter)
+Vue.use(cookie)
 Vue.use(ElementUI);
 Vue.use(Vuelidate)
 Vue.prototype.Message = Message

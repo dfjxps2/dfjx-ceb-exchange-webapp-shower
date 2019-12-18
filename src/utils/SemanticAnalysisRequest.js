@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import workbenchReponse from './workbenchResponseFailed'
 import Qs from 'qs'
-
+import Vue from 'vue'
 
 // 创建axios实例
 const service = axios.create({
@@ -21,8 +21,10 @@ service.defaults.headers = {
 
 // request拦截器
 service.interceptors.request.use(config => {
-  const requestData = config.data
-
+  const tokenVal = Vue.cookie.get('token')
+  if(tokenVal!=null){
+    config.headers['token'] = Vue.cookie.get('token') // 请求头带上token
+  }
   if(config.data instanceof FormData){
       //do nothing......
   }else{

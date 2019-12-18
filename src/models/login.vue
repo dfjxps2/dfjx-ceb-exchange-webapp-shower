@@ -16,7 +16,7 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
+            <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="tokenLogin">
               <!--<el-button type="primary" style="width:100%;" :loading="loading">-->
               登入系统
             </el-button>
@@ -87,7 +87,7 @@
             this.pwdType = 'user_pwd'
         }
     },
-    handleLogin() {
+    tokenLogin(){
       const $this = this
       try{
         this.BaseRequest({
@@ -95,17 +95,27 @@
           method:"get",
           params:this.loginForm
         })
-        .then(response=>{
-            if('LOGIN_SUCCESS'==response){
-              $this.forwardToHome()
-            }else if('PWD_EXPIRED'==response){
-              $this.resetPwd = true
-              this.changePwdForm.user_name = this.loginForm.user_name
+          .then(responseResult=>{
+            if(responseResult==false){
+
+            }else{
+              const response = responseResult.RESULT
+              const token = responseResult.TOKEN
+              if('SUCCESS'==response){
+                $this.forwardToHome()
+                $this.$cookie.set('token', token)
+                $this.forwardToHome()
+              }else if('PWD_EXPIRED'==response){
+                $this.resetPwd = true
+                this.changePwdForm.user_name = this.loginForm.user_name
+              }
             }
-        })
-        .catch(errorMsg=>{
-          //console.log("response ......")
-        });
+
+
+          })
+          .catch(errorMsg=>{
+            //console.log("response ......")
+          });
       }catch(e){
         //console.log("catch ......"+e)
       }
@@ -157,6 +167,7 @@
     //检查用户是否已经登录
     let loadingInstance = Loading.service({ fullscreen: true,background:'rgba(0, 0, 0, 0.7)',	text:'加载中........' });
     const $this = this
+
     this.$http.post(process.env.BASE_API+"/sys/user/userMenuList.do",{},{withCredentials: true})
       .then(response => {
         let res = response.data
