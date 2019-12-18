@@ -1,83 +1,91 @@
 <template>
   <WorkMain :headerItems="['联系人管理']">
-    <el-row :gutter="20">
-      <el-col class="align-left spaceValue" :span="17">
-            <el-button @click="openAddModal" type="primary">新增数据消费计划</el-button>
-      </el-col>
-      <el-col :span="24">
-        <el-table
-            :data="dataList"
-            border
-            stripe
-            size="mini"
-            class = "searchGrid"
-            style="width:100%"
-            v-loading="dataListLoading"
-            >
-            <el-table-column
-                type="index"
-                width="50">
-            </el-table-column>
-            <el-table-column
-                prop="user_name"
-                header-align="center"
-                align="center"
-                show-overflow-tooltip
-                label="联系人姓名">
-            </el-table-column>
-            <el-table-column
-                prop="mobile_phone"
-                header-align="center"
-                align="center"
-                show-overflow-tooltip
-                label="联系人电话">
-            </el-table-column>
-            <el-table-column
-                prop="email"
-                header-align="center"
-                align="center"
-                show-overflow-tooltip
-                label="联系人邮箱">
-            </el-table-column>
-            <el-table-column
-                label="操作"
-                align="center">
-                <template slot-scope="scope">
-                    <el-button type="text" size="mini"  @click="openEditModal(scope.row)" >编辑</el-button>
-                    <el-button type="text" size="mini" @click="see(scope.row)" >查看</el-button>
-                    <el-button type="text" size="mini" @click="delUser(scope.row)" >删除</el-button>
-                </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination
-            @current-change="currentChangeHandle"
-            :current-page="pageIndex"
-            :page-size="pageSize"
-            :total="totalPage"
-            layout="total, prev, pager, next, jumper">
-        </el-pagination>
-      </el-col>
-    </el-row>
-
+    <div class="publicClass">
+      <el-row :gutter="20">
+        <el-col class="align-left spaceValue" :span="24">
+          <div class="headerCountentStyle">
+              <el-button @click="openAddModal" type="primary" icon="el-icon-circle-plus-outline" style="margin-left:10px;">新增数据消费计划</el-button>
+          </div>
+        </el-col>
+        <el-col :span="24">
+          <div class="tableStyle">
+            <el-table
+                :data="dataList"
+                border
+                stripe
+                size="mini"
+                :header-cell-style="{background:'#f6f6f7',}"
+                class = "searchGrid"
+                style="width:100%"
+                v-loading="dataListLoading"
+                >
+                <el-table-column
+                    prop="person_id"
+                    header-align="center"
+                    align="center"
+                    show-overflow-tooltip
+                    label="编号">
+                </el-table-column>
+                <el-table-column
+                    prop="person_nm"
+                    header-align="center"
+                    align="center"
+                    show-overflow-tooltip
+                    label="联系人姓名">
+                </el-table-column>
+                <el-table-column
+                    prop="person_tel"
+                    header-align="center"
+                    align="center"
+                    show-overflow-tooltip
+                    label="联系人电话">  
+                </el-table-column>
+                <el-table-column
+                    prop="person_email"
+                    header-align="center"
+                    align="center"
+                    show-overflow-tooltip
+                    label="联系人邮箱">
+                </el-table-column>
+                <el-table-column
+                    label="操作"
+                    align="center">
+                    <template slot-scope="scope">
+                        <el-button type="text" size="mini"  @click="openEditModal(scope.row)" >编辑</el-button>
+                        <el-button type="text" size="mini" @click="see(scope.row)" >查看</el-button>
+                        <el-button type="text" size="mini" @click="delUser(scope.row)" >删除</el-button>
+                    </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+                @current-change="currentChangeHandle"
+                :current-page="pageIndex"
+                :page-size="pageSize"
+                :total="totalPage"
+                layout="total, prev, pager, next, jumper">
+            </el-pagination>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
     <!-- 新增 弹窗-->
     <el-dialog title="新增联系人信息" :visible.sync="addShowModalPage" >
-      <el-form  class="modal-form" label-position="left" label-width="22%" :model="addformData">
+      <el-form  class="modal-form" label-position="left" label-width="25%" :model="addformData">
         <div class="boxForm_item">
             <span class="colorRed">*</span>
             <el-form-item size="mini" label="联系人姓名：" >
-              <el-input v-model="addformData.contacts_name" auto-complete="off" ></el-input>
+              <el-input v-model="addformData.contacts_name" placeholder="请输入联系人姓名" auto-complete="off" ></el-input>
             </el-form-item>
         </div>
         <div class="boxForm_item">
             <span class="colorRed">*</span>
             <el-form-item size="mini" label="联系人电话：">
-              <el-input v-model="addformData.contacts_tel" auto-complete="off" ></el-input>
+              <el-input v-model="addformData.contacts_tel" placeholder="请输入联系人电话" auto-complete="off" ></el-input>
             </el-form-item>
         </div>
         <div class="boxForm_item">
-            <span class="colorRed">*</span>
             <el-form-item size="mini" label="联系人邮箱：">
-              <el-input v-model="addformData.contacts_email" auto-complete="off" ></el-input>
+              <el-input v-model="addformData.contacts_email" placeholder="请输入联系人邮箱" auto-complete="off" ></el-input>
             </el-form-item>
         </div>
       </el-form>
@@ -103,7 +111,6 @@
           </el-form-item>
         </div>
         <div class="boxForm_item">
-          <span class="colorRed">*</span>
           <el-form-item size="mini" label="联系人邮箱：">
             <el-input v-model="editformData.contacts_email" auto-complete="off" ></el-input>
           </el-form-item>
@@ -123,21 +130,21 @@
 
     <!--查看弹窗-->
     <el-dialog title="查看联系人信息" :visible.sync="seeShowModalPage" >
-      <el-form  class="modal-form" label-position="left" label-width="22%" :model="seeformData">
-        <el-form-item size="mini" label="联系人姓名：" >
-          <el-input v-model="seeformData.contacts_name" auto-complete="off" disabled></el-input>
+      <el-form  class="modal-form" label-position="right" label-width="25%" :model="seeformData">
+        <el-form-item size="mini" label="联系人姓名：">
+            <span>{{seeformData.contacts_name}}</span>
         </el-form-item>
         <el-form-item size="mini" label="联系人电话：">
-          <el-input v-model="seeformData.contacts_tel" auto-complete="off" disabled></el-input>
+            <span>{{seeformData.contacts_tel}}</span>
         </el-form-item>
         <el-form-item size="mini" label="联系人邮箱：">
-          <el-input v-model="seeformData.contacts_email" auto-complete="off" disabled></el-input>
+            <span>{{seeformData.contacts_email}}</span>
         </el-form-item>
         <el-form-item size="mini" label="创建时间：">
-          <el-input v-model="seeformData.createdTime" auto-complete="off" disabled></el-input>
+            <span>{{seeformData.createdTime}}</span>
         </el-form-item>
         <el-form-item size="mini" label="最后修改时间：">
-          <el-input v-model="seeformData.lastEditTime" auto-complete="off" disabled></el-input>
+            <span>{{seeformData.lastEditTime}}</span>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -153,6 +160,8 @@
   import { required } from 'vuelidate/lib/validators';
   import Treeselect from '@riophae/vue-treeselect';
   import '@riophae/vue-treeselect/dist/vue-treeselect.css';
+  var myregTel = /^[1][3,4,5,7,8][0-9]{9}$/;
+  var myregEmail = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
 
   export default {
     name: 'contactsMain',
@@ -168,23 +177,23 @@
         addShowModalPage: false,
         seeShowModalPage: false,
         addformData: {
-          contacts_name: null,
-          contacts_tel: null,
-          contacts_email: null,
+          contacts_name: "",
+          contacts_tel: "",
+          contacts_email: "",
         },
         editformData: {
-          contacts_name: null,
-          contacts_tel: null,
-          contacts_email: null,
-          createdTime:null,
-          lastEditTime:null,
+          contacts_name: "",
+          contacts_tel: "",
+          contacts_email: "",
+          createdTime:"",
+          lastEditTime:"",
         },
         seeformData: {
-          contacts_name: null,
-          contacts_tel: null,
-          contacts_email: null,
-          createdTime:null,
-          lastEditTime:null,
+          contacts_name: "",
+          contacts_tel: "",
+          contacts_email: "",
+          createdTime:"",
+          lastEditTime:"",
         },
         page_res:{},
       }
@@ -213,7 +222,7 @@
                 'pageSize': 10,
                 }
             }).then((response) => {
-              console.log(response)
+              // console.log(response)
               if (response) {
                   if(this.page_res[this.pageIndex]){
                       this.dataList = this.page_res[this.pageIndex];
@@ -240,7 +249,7 @@
             this.getTableData(val);
         },
         delUser: function (row) {//删除
-            this.$confirm('确定删除用户【' + row.user_name + '】？', '提示', {
+            this.$confirm('确定删除联系人【' + row.person_nm + '】？', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             dangerouslyUseHTMLString: true,
@@ -249,7 +258,7 @@
             this.BaseRequest({
                 url: '/contact/delpageContact',    
                 method: 'get',
-                params: {'user_id': row.user_id}
+                params: {'person_id': row.person_id}
             }).then((res) => {
                 if(res == "success"){
                 this.Message.success('删除成功');
@@ -262,53 +271,62 @@
             this.addShowModalPage = true;
         },
         addSubmitDataForm: function () {//新增弹窗
-            if (this.addformData.contacts_name == null || this.addformData.contacts_tel == null || this.addformData.contacts_email == null) {
+            if (this.addformData.contacts_name == "" || this.addformData.contacts_tel == "") {
                 this.$notify({
                     dangerouslyUseHTMLString: true,       
-                    message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数不允许为空</span><br>联系人姓名、电话、邮箱'
+                    message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数不允许为空</span><br>联系人姓名、电话'
                 })
+            }else if(!myregTel.test(this.addformData.contacts_tel)){
+                  this.Message.warning('请输入正确的手机号');
+            }else if(!myregEmail.test(this.addformData.contacts_email)){
+                  this.Message.warning('请输入正确的邮箱');
             }else{
                 this.BaseRequest({
                     url: '/contact/insertpageContact',
                     method: 'get',
                     params: {
-                    'user_name': this.addformData.contacts_name,
-                    'mobile_phone': this.addformData.contacts_tel,
-                    'email': this.addformData.contacts_email,
+                    'person_nm': this.addformData.contacts_name,
+                    'person_tel': this.addformData.contacts_tel,
+                    'person_email': this.addformData.contacts_email,
                     }
                 }).then((res) => {
+                console.log(res,"red")
                     if(res == "success"){
-                    this.Message.success('保存成功')
-                    this.getTableData(1);
-                    this.closeModal();
+                        this.Message.success('保存成功');
+                        this.getTableData(1);
+                        this.closeModal();
                     }
                 })
             }
         },
         openEditModal: function (row) {//编辑
             this.editShowModalPage = true;
-            this.user_id = row.user_id;
-            this.editformData.contacts_name = row.user_name;
-            this.editformData.contacts_tel = row.mobile_phone;
-            this.editformData.contacts_email = row.email;
-            this.editformData.createdTime = row.reg_date;
-            this.editformData.lastEditTime = row.last_login_time;
+            this.user_id = row.person_id;
+            this.editformData.contacts_name = row.person_nm;
+            this.editformData.contacts_tel = row.person_tel;
+            this.editformData.contacts_email = row.person_email;
+            this.editformData.createdTime = row.create_time;
+            this.editformData.lastEditTime = row.update_time;
         },
         editSubmitDataForm: function () {//编辑弹窗 
-            if (this.editformData.contacts_name == null || this.editformData.contacts_tel == null || this.editformData.contacts_email == null) {
+            if (this.editformData.contacts_name == "" || this.editformData.contacts_tel == "") {
                 this.$notify({
                     dangerouslyUseHTMLString: true,       
-                    message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数不允许为空</span><br>联系人姓名、电话、邮箱'
+                    message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数不允许为空</span><br>联系人姓名、电话'
                 })
+            }else if(!myregTel.test(this.editformData.contacts_tel)){
+                  this.Message.warning('请输入正确的手机号');
+            }else if(!myregEmail.test(this.editformData.contacts_email)){
+                  this.Message.warning('请输入正确的邮箱');
             }else{
                 this.BaseRequest({
                     url: '/contact/updatepageContact',
                     method: 'get',
                     params: {
-                    'user_id': this.user_id,
-                    'user_name': this.editformData.contacts_name,
-                    'mobile_phone': this.editformData.contacts_tel,
-                    'email': this.editformData.contacts_email
+                    'person_id': this.user_id,
+                    'person_nm': this.editformData.contacts_name,
+                    'person_tel': this.editformData.contacts_tel,
+                    'person_email': this.editformData.contacts_email
                     }
                 }).then((res) => {
                     if(res == "success"){
@@ -326,15 +344,15 @@
               url: '/contact/pageContactselect',
               method: 'get',
               params: {
-                  'user_id': row.user_id,
+                  'person_id': row.person_id,
               }
             }).then((res) => {
-              var resJson = res[0];
-              this.seeformData.contacts_name = resJson.user_name;
-              this.seeformData.contacts_tel = resJson.mobile_phone;
-              this.seeformData.contacts_email = resJson.email;
-              this.seeformData.createdTime = resJson.reg_date;
-              this.seeformData.lastEditTime = resJson.last_login_time;
+              var resJson = res[0]; 
+              this.seeformData.contacts_name = resJson.person_nm;
+              this.seeformData.contacts_tel = resJson.person_tel;
+              this.seeformData.contacts_email = resJson.person_email;
+              this.seeformData.createdTime = resJson.create_time;
+              this.seeformData.lastEditTime = resJson.update_time;
             })
         },
         closeModal: function () {
@@ -355,6 +373,9 @@
 <style lang="css">
   .mini-font-size{
     font-size: 12px !important;
+  }
+  .el-form-item__content{
+    text-align: left;
   }
 </style>
 

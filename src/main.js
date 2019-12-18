@@ -14,6 +14,7 @@ import ECharts from 'vue-echarts'
 import 'echarts/lib/chart/pie'
 import vueParticleLine from 'vue-particle-line'
 import 'vue-particle-line/dist/vue-particle-line.css'
+import '../static/publicCss.scss'
 
 Vue.component('icon', Icon)
 Vue.component('echart', ECharts)

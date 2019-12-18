@@ -60,29 +60,59 @@ const routes = [
           },
           { 
             name: 'contacts',
-            path: '/sys/contacts',
-            component: () => import('@/models/sys/contacts/contactsMain')//联系人管理
+            path: '/system/contacts',
+            component: () => import('@/models/system/contacts/contactsMain')//联系人管理
           },
           {
             name: 'dataConsumptionPlan',
-            path: '/sys/dataConsumptionPlan',
-            component: () => import('@/models/sys/dataConsumptionPlan/consumptionMain')//数据消费计划
+            path: '/dataexchange/dataConsumptionPlan',
+            component: () => import('@/models/dataexchange/dataConsumptionPlan/consumptionMain')//数据消费计划
+          },
+          {
+            name: 'consumptionUser',
+            path: '/dataexchange/consumptionUser',
+            component: () => import('@/models/dataexchange/dataProductionPlan/consumptionUser')//数据消费方
           },
           {
             name: 'dataProductionPlan',
-            path: '/sys/dataProductionPlan',
-            component: () => import('@/models/sys/dataProductionPlan/productionMain')//数据生产计划
+            path: '/dataexchange/dataProductionPlan',
+            component: () => import('@/models/dataexchange/dataProductionPlan/productionMain')//数据生产计划
           },
           {
             name: 'dataAdministration',
-            path: '/sys/dataAdministration',
-            component: () => import('@/models/sys/dataAdministration/administrationMain')//数据集管理
+            path: '/dataexchange/dataAdministration',
+            component: () => import('@/models/dataexchange/dataAdministration/administrationMain')//数据集管理
           },
           {
             name: 'appProjectAdministration',
-            path: '/sys/appProjectAdministration',
-            component: () => import('@/models/sys/appProjectAdministration/projectMain')//应用项目管理
-          }
+            path: '/system/appProjectAdministration',
+            component: () => import('@/models/system/appProjectAdministration/projectMain')//应用项目管理
+          },
+          {
+            name: 'sysParamsConfig',
+            path: '/system/sysParamsConfig',
+            component: () => import('@/models/system/sysParamsConfig/sysParamsConfigMain')//系统参数配置
+          },
+          {
+            name: 'AgentStatus',
+            path: '/watcher/AgentStatus',
+            component: () => import('@/models/watcher/AgentStatus/AgentStatusMain')//Agent状态
+          },
+          {
+            name: 'serverStatus',
+            path: '/watcher/serverStatus',
+            component: () => import('@/models/watcher/serverStatus/serverStatusMain')//server状态
+          },
+          {
+            name: 'transStatusQuery',
+            path: '/watcher/transStatusQuery',
+            component: () => import('@/models/watcher/transStatusQuery/transStatusQueryMain')//传输状态查询
+          },
+          {
+            name: 'transLog',
+            path: '/watcher/transLog',
+            component: () => import('@/models/watcher/transLog/transLogMain')//传输日志
+          },
         ]
       }
     ]
