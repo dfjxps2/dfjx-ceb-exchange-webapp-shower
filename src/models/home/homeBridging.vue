@@ -25,22 +25,22 @@
     mounted:function(){
       const $this = this;
 
-      // this.BaseRequest({
-      //   url:'/sys/login/checkLoginUser',
-      //   method:"get"
-      // }).then(loginUserInfo=>{
-      //     // console.log(JSON.stringify(loginUserInfo))
-      //     if(loginUserInfo!=null){
-      //       $this.loginUserInfo = loginUserInfo
-      //     }
-      //     this.BaseRequest({
-      //       url:'/sys/user/userMenuList',
-      //       method:"get"
-      //     }).then(response=>{
-      //       $this.menuList = MenuTurnner.modalParse(response)
-      //       console.log('=====',$this.menuList)
-      //     })
-      // })
+      this.BaseRequest({
+        url:'/sys/login/checkLoginUser',
+        method:"get"
+      }).then(loginUserInfo=>{
+          // console.log(JSON.stringify(loginUserInfo))
+          if(loginUserInfo!=null){
+            $this.loginUserInfo = loginUserInfo
+          }
+          this.BaseRequest({
+            url:'/sys/user/userMenuList',
+            method:"get"
+          }).then(response=>{
+            $this.menuList = MenuTurnner.modalParse(response)
+            console.log('=====',$this.menuList)
+          })
+      })
     }
   }
 </script>
