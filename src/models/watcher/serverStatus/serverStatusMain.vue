@@ -9,8 +9,8 @@
                   <img src="../../../../static/image/serverImg.png" alt="" class="standbyimg">
               </div>
               <div class="countent">
-                  <p><span>状态：</span><span>{{isStatusRun1}}</span></p>
-                  <p><span>状态：</span><span>{{isStatusRun2}}</span></p>
+                  <p><span>状态：</span><span :class='{activeT:1}'>{{isStatusRun1}}</span></p>
+                  <p><span>状态：</span><span :class='{activeF:1}'>{{isStatusRun2}}</span></p>
               </div>
               <div class="countents">
                   <p><span>服务器:</span><span>{{server1}}</span></p>
@@ -59,12 +59,12 @@
               method: 'get',
               params: {}
           }).then((res) => {
-            // console.log(res)
+              console.log(res)
               var json = res[0];
               this.isStatusRun1 = json.status1;
-              this.isStatusRun2 = json.status1;
+              this.isStatusRun2 = json.status2;
               this.server1 = json.server1;
-              this.server2 = json.server1;
+              this.server2 = json.server2;
               this.totalSpace = json.total;
               this.alreadyUsed = json.used;
               this.surplusSpace = json.free;
@@ -128,5 +128,11 @@
   .publicClass{
     padding-top: 100px;
     height: 88%;
+  }
+  .activeT{
+    color: blue;
+  }
+  .activeF{
+    color: red;
   }
 </style>
