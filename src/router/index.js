@@ -96,7 +96,7 @@ const routes = [
           {
             name: 'AgentStatus',
             path: '/watcher/AgentStatus',
-            component: () => import('@/models/watcher/AgentStatus/AgentStatusMain')//Agent状态
+            component: () => import('@/models/watcher/AgentStatus/agentStatusMain')//Agent状态
           },
           {
             name: 'serverStatus',
