@@ -109,6 +109,7 @@
   import { required } from 'vuelidate/lib/validators';
   import Treeselect from '@riophae/vue-treeselect';
   import '@riophae/vue-treeselect/dist/vue-treeselect.css';
+  var reg = /^\d+$|^\d+[.]?\d+$/;
 
   export default {
     name: 'sysParamsConfigMain',
@@ -183,13 +184,21 @@
             this.editSysParamsConfig.TransAutoFreQuency = this.sysParamsConfig.TransAutoFreQuency;
         },
         editSubmitDataForm: function () {//修改弹窗 
+                console.log(typeof(this.editSysParamsConfig.paramsKey))
             if (this.editSysParamsConfig.paramsKey == "" || this.editSysParamsConfig.secretKey == "" 
                 || this.editSysParamsConfig.servWeek == "" || this.editSysParamsConfig.dataFileWeek == "" || this.editSysParamsConfig.logEffective == ""
                 || this.editSysParamsConfig.fileTransLength == "" || this.editSysParamsConfig.TransLimiting == "" || this.editSysParamsConfig.TransAutoFreQuency == "") {
                 this.$notify({
                     dangerouslyUseHTMLString: true,       
-                    message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数均平不允许为空</span><br'
+                    message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数均平不允许为空</span><br>参数加解密key、secret key、服务心跳周期（秒）、数据文件有效期（天）、日志有效期（天）、文件传输超时时长（秒)、传输限速（KB/s)、传输自动重试次数'
                 })
+            }else if(this.editSysParamsConfig.paramsKey == "" || !reg.test(this.editSysParamsConfig.secretKey) 
+                || !reg.test(this.editSysParamsConfig.servWeek) || !reg.test(this.editSysParamsConfig.dataFileWeek)|| !reg.test(this.editSysParamsConfig.logEffective)
+                || !reg.test(this.editSysParamsConfig.fileTransLength) || !reg.test(this.editSysParamsConfig.TransLimiting) || !reg.test(this.editSysParamsConfig.TransAutoFreQuency)) {
+                this.$notify({
+                      dangerouslyUseHTMLString: true,       
+                      message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数只能输入数字</span><br>参数加解密key、secret key、服务心跳周期（秒）、数据文件有效期（天）、日志有效期（天）、文件传输超时时长（秒)、传输限速（KB/s)、传输自动重试次数'
+                  })
             }else{
                 this.BaseRequest({
                     url: '/parameter/updateparameter',

@@ -8,7 +8,10 @@
         </el-breadcrumb>
       </div>
       <div class="publicClass">
-        <el-row :gutter="20">
+        <el-row>
+          <el-col class="align-left spaceValue" :span="24">
+                <el-button @click="$router.go(-1)" >返 回</el-button>
+          </el-col>
           <el-col :span="24">
             <el-table
                 :data="dataList"

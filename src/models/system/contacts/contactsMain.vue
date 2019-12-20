@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col class="align-left spaceValue" :span="24">
           <div class="headerCountentStyle">
-              <el-button @click="openAddModal" type="primary" icon="el-icon-circle-plus-outline" style="margin-left:10px;">新增数据消费计划</el-button>
+              <el-button @click="openAddModal" type="primary" icon="el-icon-circle-plus-outline" style="margin-left:10px;">新增联系人</el-button>
           </div>
         </el-col>
         <el-col :span="24">
@@ -161,7 +161,9 @@
   import Treeselect from '@riophae/vue-treeselect';
   import '@riophae/vue-treeselect/dist/vue-treeselect.css';
   var myregTel = /^[1][3,4,5,7,8][0-9]{9}$/;
-  var myregEmail = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+  var myregEmail = /^[a-zA-Z0-9_.-]+@([a-zA-Z0-9-]{2,3})+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,3}$/;
+
+
 
   export default {
     name: 'contactsMain',

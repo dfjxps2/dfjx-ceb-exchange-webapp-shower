@@ -18,78 +18,78 @@
         </el-col>
         <el-col :span="24">
           <div class="tableStyle">
-          <el-table
-              :data="dataList"
-              border
-              stripe
-              size="mini"
-              class = "searchGrid"
-              style="width:100%"
-              :header-cell-style="{background:'#f4f3f3',}"
-              v-loading="dataListLoading"
-              >
-              <el-table-column
-                  prop="prod_id"
-                  header-align="center"
-                  align="center"
-                  show-overflow-tooltip
-                  label="编号">
-              </el-table-column> 
-              <el-table-column
-                  prop="prod_nm"
-                  header-align="center"
-                  align="center"
-                  show-overflow-tooltip
-                  label="生产计划名称">
-              </el-table-column> 
-              <el-table-column
-                  prop="scnm"
-                  header-align="center"
-                  align="center"
-                  show-overflow-tooltip
-                  label="所属应用项目">
+            <el-table
+                :data="dataList"
+                border
+                stripe
+                size="mini"
+                class = "searchGrid"
+                style="width:100%"
+                :header-cell-style="{background:'#f4f3f3',}"
+                v-loading="dataListLoading"
+                >
+                <el-table-column
+                    prop="prod_id"
+                    header-align="center"
+                    align="center"
+                    show-overflow-tooltip
+                    label="编号">
+                </el-table-column> 
+                <el-table-column
+                    prop="prod_nm"
+                    header-align="center"
+                    align="center"
+                    show-overflow-tooltip
+                    label="生产计划名称">
+                </el-table-column> 
+                <el-table-column
+                    prop="scnm"
+                    header-align="center"
+                    align="center"
+                    show-overflow-tooltip
+                    label="所属应用项目">
+                </el-table-column>
+                <el-table-column
+                    prop="dat_nm"
+                    header-align="center"
+                    align="center"
+                    show-overflow-tooltip
+                    label="所属数据集">
+                </el-table-column>
+                <el-table-column
+                    prop="upload_cron"
+                    header-align="center"
+                    align="center"
+                    show-overflow-tooltip
+                    label="上传任务时间">
+                </el-table-column>
+                <el-table-column
+                    prop="person_nm"
+                    header-align="center"
+                    align="center"
+                    show-overflow-tooltip
+                    label="负责人">
+                </el-table-column>
+                <el-table-column
+                    label="操作"
+                    width="250"
+                    align="center">
+                    <template slot-scope="scope">
+                        <el-button type="text" size="mini"  @click="openEditModal(scope.row)" >编辑</el-button>
+                        <el-button type="text" size="mini" @click="see(scope.row)" >查看</el-button>
+                        <el-button type="text" size="mini" @click="startUser(scope.row)" >启用</el-button>
+                        <el-button type="text" size="mini" @click="delUser(scope.row)" >停用</el-button>
+                        <el-button type="text" size="mini" @click="dataConsumption(scope.row)" >数据消费方</el-button>
+                    </template>
               </el-table-column>
-              <el-table-column
-                  prop="dat_nm"
-                  header-align="center"
-                  align="center"
-                  show-overflow-tooltip
-                  label="所属数据集">
-              </el-table-column>
-              <el-table-column
-                  prop="upload_cron"
-                  header-align="center"
-                  align="center"
-                  show-overflow-tooltip
-                  label="上传任务时间">
-              </el-table-column>
-              <el-table-column
-                  prop="person_nm"
-                  header-align="center"
-                  align="center"
-                  show-overflow-tooltip
-                  label="负责人">
-              </el-table-column>
-              <el-table-column
-                  label="操作"
-                  width="250"
-                  align="center">
-                  <template slot-scope="scope">
-                      <el-button type="text" size="mini"  @click="openEditModal(scope.row)" >编辑</el-button>
-                      <el-button type="text" size="mini" @click="see(scope.row)" >查看</el-button>
-                      <el-button type="text" size="mini" @click="startUser(scope.row)" >启用</el-button>
-                      <el-button type="text" size="mini" @click="delUser(scope.row)" >停用</el-button>
-                      <el-button type="text" size="mini" @click="dataConsumption(scope.row)" >数据消费方</el-button>
-                  </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-              @current-change="currentChangeHandle"
-              :current-page="pageIndex"
-              :page-size="pageSize"
-              :total="totalPage"
-              layout="total, prev, pager, next, jumper">
-          </el-pagination>
+            </el-table>
+            <el-pagination
+                @current-change="currentChangeHandle"
+                :current-page="pageIndex"
+                :page-size="pageSize"
+                :total="totalPage"
+                layout="total, prev, pager, next, jumper">
+            </el-pagination>
           </div>
         </el-col>
       </el-row>
@@ -334,7 +334,7 @@
         },
         getAPPProData: function () {//所属应用项目下拉
           this.BaseRequest({
-                url: '/consumption/apmanagementselectlist',
+                url: '/production/dataProductionprojrctlist',
                 method: 'get',
                 params: {}
             }).then((res) => {
@@ -419,8 +419,10 @@
                     method: 'get',
                     params: {'prod_id': row.prod_id,"flag": 1}
                 }).then((res) => {
-                    this.Message.success('此数据生产计划启用成功');
-                    this.getTableData(1);
+                     if(res == "success"){
+                      this.Message.success('此数据生产计划启用成功');
+                      this.getTableData(1);
+                    }
                 })
               })
           }
@@ -429,7 +431,7 @@
             if(row.flag == 0){
                this.Message.success('此数据生产计划已停用'); 
             }else{
-              this.$confirm('确定删除此数据生产计划【' + row.prod_nm + '】？', '提示', {
+              this.$confirm('确定停用此数据生产计划【' + row.prod_nm + '】？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 dangerouslyUseHTMLString: true,
@@ -475,9 +477,9 @@
                     'flag': this.addformData.isEnable,
                   }
               }).then((res) => {
-                  if(res == "success"){
-                    this.Message.success('保存成功')
-                    this.getTableData(1);
+                this.getTableData(1);
+                if(res == "success"){
+                  this.Message.success('保存成功')
                     this.closeModal();
                   }
               })
@@ -536,9 +538,9 @@
                     'flag': this.editformData.isEnable,
                   }
               }).then((res) => {
+                  this.getTableData(1);
                   if(res == "success"){
                     this.Message.success('修改成功');
-                    this.getTableData(1);
                     this.closeModal();
                   }
               })

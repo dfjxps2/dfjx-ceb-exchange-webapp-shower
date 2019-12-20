@@ -280,7 +280,7 @@
         },
         getdatasData: function () {
           this.BaseRequest({
-                url: '/consumption/apmanagementselectlist',
+                url: '/management/datamanagementprojectlist',//应用项目下拉
                 method: 'get',
                 params: {}
             }).then((res) => {
@@ -406,9 +406,9 @@
                     'dat_desc': this.addformData.project_Explain == ""?"暂无":this.addformData.project_Explain,
                   }
               }).then((res) => {
+                this.getTableData(1);
                 if(res == "success"){
                     this.Message.success('保存成功');
-                    this.getTableData(1);
                     this.closeModal();
                 }
               })
@@ -455,9 +455,9 @@
                     'dat_desc': this.editformData.project_Explain,
                   }
               }).then((res) => {
+                this.getTableData(1);
                 if(res == "success"){
                   this.Message.success('保存成功');
-                  this.getTableData(1);
                   this.closeModal();
                 }
               })

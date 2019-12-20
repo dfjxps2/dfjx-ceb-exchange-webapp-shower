@@ -198,7 +198,7 @@
         },
         getdatasData: function () {
           this.BaseRequest({
-                url: '/consumption/apmanagementselectlist',
+                url: '/log/datamanagementprojectlist',//应用项目下拉
                 method: 'get',
                 params: {}
             }).then((res) => {

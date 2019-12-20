@@ -322,9 +322,11 @@
                       'prj_desc': this.addformData.project_Explain == ""?"暂无":this.addformData.project_Explain,
                     }
                 }).then((res) => {
-                      this.Message.success('保存成功')
+                    this.Message.success('保存成功');
+                    if(res == "success"){
                       this.getTableData(1);
                       this.closeModal();
+                    }
                 })
             }
         },
@@ -365,9 +367,9 @@
                       'prj_desc': this.editformData.project_Explain
                   }
               }).then((res) => {
+                  this.getTableData(1);
                   if(res == "success"){
                       this.Message.success('修改成功');
-                      this.getTableData(1);
                       this.closeModal();
                   }
               })

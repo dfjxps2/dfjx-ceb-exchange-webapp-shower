@@ -347,7 +347,7 @@
         },
         getAPPProData: function () {//所属应用项目下拉
           this.BaseRequest({
-                url: '/consumption/apmanagementselectlist',
+                url: '/consumption/dataConsumptionprojectlist',
                 method: 'get',
                 params: {}
             }).then((res) => {
@@ -418,7 +418,7 @@
           if(row.flag == 1){
                this.Message.success('此数据消费计划已启用'); 
           }else{
-            this.$confirm('确定停用此数据消费计划【' + row.cons_nm + '】？', '提示', {
+            this.$confirm('确定启用此数据消费计划【' + row.cons_nm + '】？', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               dangerouslyUseHTMLString: true,
@@ -429,8 +429,10 @@
                     method: 'get',
                     params: {'cons_id': row.cons_id,"flag": 1}
                 }).then((res) => {
-                    this.Message.success('此此数据消费计划启用成功');
-                    this.getTableData(1);
+                    if(res == "success"){
+                      this.Message.success('此此数据消费计划启用成功');
+                      this.getTableData(1);
+                    }
                 })
               })
           }
@@ -450,8 +452,10 @@
                   method: 'get',
                   params: {'cons_id': row.cons_id,"flag": 0}
               }).then((res) => {
+                if(res == "success"){
                   this.Message.success('此数据消费计划停用成功');
                   this.getTableData(1);
+                }
               })
             })
           }
@@ -485,9 +489,9 @@
                     'flag': this.addformData.isEnable,
                   }
               }).then((res) => {
+                  this.getTableData(1);
                   if(res == "success"){
                     this.Message.success('保存成功')
-                    this.getTableData(1);
                     this.closeModal();
                   }
               })
@@ -546,9 +550,9 @@
                     'flag': this.editformData.isEnable,
                   }
               }).then((res) => {
+                  this.getTableData(1);
                   if(res == "success"){
                     this.Message.success('修改成功');
-                    this.getTableData(1);
                     this.closeModal();
                   }
               })
