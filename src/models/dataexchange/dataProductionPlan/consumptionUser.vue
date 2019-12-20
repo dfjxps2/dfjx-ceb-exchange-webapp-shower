@@ -155,7 +155,7 @@
                 method: 'get',
                 params: {'prod_id': this.prod_id}
             }).then((response) => {
-              // console.log(response,"list")
+              console.log(response,"listkk")
               if (response) {
                   this.dataList = response;
               }

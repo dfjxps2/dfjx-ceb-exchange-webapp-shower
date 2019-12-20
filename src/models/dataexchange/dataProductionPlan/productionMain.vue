@@ -237,7 +237,7 @@
         <el-form-item size="mini" label="数据文件存放路径：">
           <span>{{seeformData.dataSsionPath}}</span>
         </el-form-item>
-        <el-form-item size="mini" label="负责人：">
+        <el-form-item size="mini" label="责任人：">
           <span>{{seeformData.contact_people}}</span>
         </el-form-item>
         <el-form-item size="mini" label="是否启用：">

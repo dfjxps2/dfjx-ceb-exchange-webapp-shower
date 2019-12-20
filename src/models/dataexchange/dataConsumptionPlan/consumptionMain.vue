@@ -176,7 +176,7 @@
         </div>
         <div class="boxForm_item">
             <span class="colorRed">*</span>
-        <el-form-item size="mini" label="消费数据应用项目：">
+            <el-form-item size="mini" label="消费数据应用项目：">
               <el-select size="mini"  style="width:300px;" v-model="editformData.dataAppPro" placeholder="请选择消费数据应用项目" clearable filterable >
                     <el-option v-for="item in projectOPtion" :key="item.prj_cd" :label="item.prj_nm" :value="item.prj_cd">
                     </el-option>
@@ -246,7 +246,7 @@
         <el-form-item size="mini" label="数据存储路径：">
           <span>{{seeformData.dataSsionPath}}</span>
         </el-form-item>
-        <el-form-item size="mini" label="负责人：">
+        <el-form-item size="mini" label="责任人：">
           <span>{{seeformData.contact_people}}</span>
         </el-form-item>
         <el-form-item size="mini" label="数据使用目的：">
@@ -471,7 +471,7 @@
                  this.addformData.dataUseObjective = "";
                  this.addformData.isEnable = "";
               }
-
+              console.log(this.addformData.dataUseObjective,"mudi")
               this.BaseRequest({
                   url: '/consumption/insertdataconsumption',
                   method: 'get',
@@ -514,10 +514,10 @@
                   message: '<span style="font-size:15px;color:red;font-weight: bold">以下参数不允许为空</span><br>数据消费计划名称、消费数据应用项目、生产计划名称、数据下载时间、数据存储路径'
               })
             }else{
-              for(var i=0;i<this.projectOPtion.length;i++){
-                if(this.editformData.app_peoject == this.projectOPtion[i].xfnm){
+              for(var i=0;i<this.projectOPtion.length;i++){ 
+                if(this.editformData.dataAppPro == this.projectOPtion[i].prj_nm){
                   this.prj_cd = this.projectOPtion[i].prj_cd;
-                }else if(this.editformData.app_peoject == this.projectOPtion[i].prj_cd ){
+                }else if(this.editformData.dataAppPro == this.projectOPtion[i].prj_cd ){
                   this.prj_cd = this.projectOPtion[i].prj_cd;
                 }
               }
