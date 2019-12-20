@@ -236,7 +236,6 @@
                 method: 'get',
                 params: {}
             }).then((res) => {
-              // console.log(res,"ddd")
               this.contactsOPtion = res;
             })
         },
@@ -385,9 +384,7 @@
                     'prj_cd': row.prj_cd,
                 }
             }).then((res) => {
-              console.log(res,"res")
                 var resJson = res[0];
-              console.log(resJson.prj_desc,"dd")
                 this.seeformData.project_name = resJson.prj_nm;
                 this.seeformData.project_label = resJson.prj_cd;
                 this.seeformData.contact_people = resJson.person_nm;

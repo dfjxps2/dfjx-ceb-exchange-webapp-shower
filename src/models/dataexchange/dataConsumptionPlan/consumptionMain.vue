@@ -475,7 +475,6 @@
                  this.addformData.dataUseObjective = "";
                  this.addformData.isEnable = "";
               }
-              console.log(this.addformData.dataUseObjective,"mudi")
               this.BaseRequest({
                   url: '/consumption/insertdataconsumption',
                   method: 'get',

@@ -415,7 +415,6 @@
             }
         },
         openEditModal: function (row) {//编辑
-            console.log(row)
             this.editShowModalPage = true;
             this.user_id = row.user_id;
             this.editformData.data_name = row.dat_nm;

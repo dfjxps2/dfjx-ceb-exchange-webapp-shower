@@ -224,7 +224,7 @@
                 'pageSize': 10,
                 }
             }).then((response) => {
-              // console.log(response)
+              console.log(response)
               if (response) {
                   if(this.page_res[this.pageIndex]){
                       this.dataList = this.page_res[this.pageIndex];
@@ -292,7 +292,6 @@
                     'person_email': this.addformData.contacts_email,
                     }
                 }).then((res) => {
-                console.log(res,"red")
                     if(res == "success"){
                         this.Message.success('保存成功');
                         this.getTableData(1);
