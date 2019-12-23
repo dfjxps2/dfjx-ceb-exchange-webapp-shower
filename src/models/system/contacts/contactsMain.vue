@@ -257,16 +257,16 @@
             dangerouslyUseHTMLString: true,
             type: 'warning'
             }).then(() => {
-            this.BaseRequest({
-                url: '/contact/delpageContact',    
-                method: 'get',
-                params: {'person_id': row.person_id}
-            }).then((res) => {
-                if(res == "success"){
-                this.Message.success('删除成功');
-                this.getTableData(1);
-                }
-            })
+              this.BaseRequest({
+                  url: '/contact/delpageContact',    
+                  method: 'get',
+                  params: {'person_id': row.person_id}
+              }).then((res) => {
+                  if(res == "success"){
+                    this.Message.success('删除成功');
+                    this.getTableData(1);
+                  }
+              })
             })
         },
         openAddModal: function () {//新增
@@ -365,8 +365,10 @@
             this.addformData.contacts_email = "";
         },
     },
-    mounted: function () {
-      this.getTableData();
+    created () {
+      this.$nextTick(() => {
+        this.getTableData(1);
+      })
     }
   }
 </script>

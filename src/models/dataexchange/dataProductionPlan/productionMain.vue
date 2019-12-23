@@ -2,7 +2,7 @@
   <WorkMain :headerItems="['数据生产计划']">
     <div class="publicClass">
       <el-row :gutter="20">
-        <el-col class="align-left spaceValue" :span="24">
+        <el-col class="spaceValue" :span="24">
           <div class="headerCountentStyle">
               <span class="textCalss">所属应用项目：</span>
               <el-select size="mini"  style="width:150px;" v-model="projectS" placeholder="请选择项目" clearable filterable >
@@ -404,7 +404,7 @@
             this.dataListLoading = true;
             this.getTableData(val);
         },
-        startUser(row){//启用数据集
+        startUser: function (row){//启用数据生产计划
           if(row.flag == 1){
                this.Message.success('此数据生产计划已启用'); 
           }else{
@@ -419,9 +419,9 @@
                     method: 'get',
                     params: {'prod_id': row.prod_id,"flag": 1}
                 }).then((res) => {
-                     if(res == "success"){
-                      this.Message.success('此数据生产计划启用成功');
+                  if(res == "success"){
                       this.getTableData(1);
+                      this.Message.success('此数据生产计划启用成功');
                     }
                 })
               })
@@ -442,9 +442,9 @@
                     method: 'get',
                     params: {'prod_id': row.prod_id,"flag": 0}
                 }).then((res) => {
-                    if(res == "success"){
-                      this.Message.success('此数据生产计划停用成功');
+                  if(res == "success"){
                       this.getTableData(1);
+                      this.Message.success('此数据生产计划停用成功');
                     }
                 })
               })
@@ -477,9 +477,9 @@
                     'flag': this.addformData.isEnable,
                   }
               }).then((res) => {
-                this.getTableData(1);
                 if(res == "success"){
-                  this.Message.success('保存成功')
+                    this.Message.success('保存成功')
+                    this.getTableData(1);
                     this.closeModal();
                   }
               })
@@ -538,9 +538,9 @@
                     'flag': this.editformData.isEnable,
                   }
               }).then((res) => {
-                  this.getTableData(1);
-                  if(res == "success"){
+                if(res == "success"){
                     this.Message.success('修改成功');
+                    this.getTableData(1);
                     this.closeModal();
                   }
               })
@@ -583,10 +583,12 @@
             this.addformData.isEnable = "";
         },
     },
-    mounted: function () {
-      this.getTableData();
-      this.getAPPProData();
-      this.getdatasData();
+    created () {
+      this.$nextTick(() => {
+        this.getTableData(1);
+        this.getAPPProData();
+        this.getdatasData();
+      })
     }
   }
 </script>

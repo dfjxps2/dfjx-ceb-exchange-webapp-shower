@@ -429,9 +429,9 @@
                     method: 'get',
                     params: {'cons_id': row.cons_id,"flag": 1}
                 }).then((res) => {
-                    if(res == "success"){
-                      this.Message.success('此此数据消费计划启用成功');
+                  if(res == "success"){
                       this.getTableData(1);
+                      this.Message.success('此此数据消费计划启用成功');
                     }
                 })
               })
@@ -453,8 +453,8 @@
                   params: {'cons_id': row.cons_id,"flag": 0}
               }).then((res) => {
                 if(res == "success"){
-                  this.Message.success('此数据消费计划停用成功');
                   this.getTableData(1);
+                  this.Message.success('此数据消费计划停用成功');
                 }
               })
             })
@@ -488,8 +488,8 @@
                     'flag': this.addformData.isEnable,
                   }
               }).then((res) => {
-                  this.getTableData(1);
-                  if(res == "success"){
+                if(res == "success"){
+                    this.getTableData(1);
                     this.Message.success('保存成功')
                     this.closeModal();
                   }
@@ -549,8 +549,8 @@
                     'flag': this.editformData.isEnable,
                   }
               }).then((res) => {
-                  this.getTableData(1);
-                  if(res == "success"){
+                if(res == "success"){
+                    this.getTableData(1);
                     this.Message.success('修改成功');
                     this.closeModal();
                   }
@@ -584,10 +584,12 @@
             this.addformData.isEnable = "";
         },
     },
-    mounted: function () {
-      this.getTableData();
-      this.getdatasData();
-      this.getAPPProData();
+    created () {
+      this.$nextTick(() => {
+        this.getTableData(1);
+        this.getdatasData();
+        this.getAPPProData();
+      })
     }
   }
 </script>

@@ -9,8 +9,10 @@
       </div>
       <div class="publicClass">
         <el-row>
-          <el-col class="align-left spaceValue" :span="24">
-                <el-button @click="$router.go(-1)" >返 回</el-button>
+          <el-col class=" spaceValue" :span="24">
+              <div class=" headerCountentStyle">
+                  <el-button type="primary" @click="$router.go(-1)" class="align-left">返 回</el-button>
+              </div>
           </el-col>
           <el-col :span="24">
             <el-table
@@ -175,8 +177,10 @@
               this.seeformData.dataDownloadTime = row.upload_cron;
         },
     },
-    mounted: function () {
-      this.getTableData(1);
+    created () {
+      this.$nextTick(() => {
+        this.getTableData(1);
+      })
     }
   }
 </script>
@@ -211,5 +215,13 @@
     margin-top: 15px;
     margin-bottom: 15px;
     padding-left: 5px;
+  }
+  .headerCountentStyle{
+    position: relative;
+  }
+  .align-left{
+    position: absolute;
+    top: 30%;
+    right: 1%;
   }
 </style>

@@ -366,10 +366,10 @@
                       'prj_desc': this.editformData.project_Explain
                   }
               }).then((res) => {
-                  this.getTableData(1);
-                  if(res == "success"){
-                      this.Message.success('修改成功');
-                      this.closeModal();
+                if(res == "success"){
+                    this.Message.success('修改成功');
+                    this.getTableData(1);
+                    this.closeModal();
                   }
               })
             }
@@ -403,9 +403,11 @@
             this.addformData.project_Explain = "";
         },
     },
-    mounted: function () {
-      this.getTableData(1);
-      this.getPersonData();
+    created () {
+      this.$nextTick(() => {
+        this.getTableData(1);
+        this.getPersonData();
+      })
     }
   }
 </script>
