@@ -210,18 +210,6 @@
   .searchGrid{
         min-height: calc(100vh - 202px - 64px);
   }
-  .spaceValue{
-    margin-bottom:15px;
-  }
-  .colorRed{
-    color: red;
-    position: absolute;
-    top: 10%;
-    left: -2%;
-  }
-  .boxForm_item{
-    position: relative;
-  }
   .el-button--mini.is-circle{
     padding:2px!important;
   }

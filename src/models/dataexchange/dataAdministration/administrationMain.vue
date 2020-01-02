@@ -186,6 +186,9 @@
           <el-form-item size="mini" label="所属应用项目：">
               <span>{{seeformData.app_peoject}}</span>
           </el-form-item>
+          <el-form-item size="mini" label="文件名命名规则：">
+              <span>{{seeformData.fileClass}}</span>
+          </el-form-item>
           <el-form-item size="mini" label="维护人：">
               <span>{{seeformData.contact_people}}</span>
           </el-form-item>
@@ -206,7 +209,7 @@
           <el-button @click="seeShowModalPage = false">关 闭</el-button>
         </div>
       </el-dialog>
-  </div>
+    </div>
   </WorkMain>
 </template>
 
@@ -451,7 +454,7 @@
                     'prj_cd': this.prj_cd,
                     'dat_cd': this.editformData.data_lable,
                     'file_regexp': this.editformData.fileClass,
-                    'dat_desc': this.editformData.project_Explain,
+                    'dat_desc': this.editformData.project_Explain == ""?"暂无":this.editformData.project_Explain,
                   }
               }).then((res) => {
                 if(res == "success"){
@@ -505,14 +508,6 @@
   @import "@/styles/table-page.scss";
   .searchGrid{
         min-height: calc(100vh - 202px - 64px);
-  }
-  .spaceValue{
-    margin-bottom:15px;
-  }
-  .textCalss{
-      font-size: 13px;
-      color:#606266;
-      margin-left: 10px;
   }
   .colorRed{
     color: red;

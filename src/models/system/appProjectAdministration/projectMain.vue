@@ -363,7 +363,7 @@
                       'prj_cd': this.editformData.project_label,
                       'prj_nm': this.editformData.project_name,
                       'person_id': this.person_nm,
-                      'prj_desc': this.editformData.project_Explain
+                      'prj_desc': this.editformData.project_Explain == ""?"暂无":this.editformData.project_Explain,
                   }
               }).then((res) => {
                 if(res == "success"){
@@ -425,9 +425,6 @@
   @import "@/styles/table-page.scss";
   .searchGrid{
         min-height: calc(100vh - 202px - 64px);
-  }
-  .spaceValue{
-    margin-bottom:15px;
   }
   .colorRed{
     color: red;

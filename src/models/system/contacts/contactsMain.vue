@@ -280,7 +280,7 @@
                 })
             }else if(!myregTel.test(this.addformData.contacts_tel)){
                   this.Message.warning('请输入正确的手机号');
-            }else if(!myregEmail.test(this.addformData.contacts_email)){
+            }else if(this.addformData.contacts_email != "" && !myregEmail.test(this.addformData.contacts_email)){
                   this.Message.warning('请输入正确的邮箱');
             }else{
                 this.BaseRequest({
@@ -317,17 +317,17 @@
                 })
             }else if(!myregTel.test(this.editformData.contacts_tel)){
                   this.Message.warning('请输入正确的手机号');
-            }else if(!myregEmail.test(this.editformData.contacts_email)){
+            }else if(this.editformData.contacts_email != "" && !myregEmail.test(this.editformData.contacts_email)){
                   this.Message.warning('请输入正确的邮箱');
             }else{
                 this.BaseRequest({
                     url: '/contact/updatepageContact',
                     method: 'get',
                     params: {
-                    'person_id': this.user_id,
-                    'person_nm': this.editformData.contacts_name,
-                    'person_tel': this.editformData.contacts_tel,
-                    'person_email': this.editformData.contacts_email
+                      'person_id': this.user_id,
+                      'person_nm': this.editformData.contacts_name,
+                      'person_tel': this.editformData.contacts_tel,
+                      'person_email': this.editformData.contacts_email == ""?"暂无":this.editformData.contacts_email
                     }
                 }).then((res) => {
                     if(res == "success"){
@@ -351,7 +351,7 @@
               var resJson = res[0]; 
               this.seeformData.contacts_name = resJson.person_nm;
               this.seeformData.contacts_tel = resJson.person_tel;
-              this.seeformData.contacts_email = resJson.person_email;
+              this.seeformData.contacts_email = resJson.person_email == ""?"暂无":resJson.person_email;
               this.seeformData.createdTime = resJson.create_time;
               this.seeformData.lastEditTime = resJson.update_time;
             })
@@ -386,9 +386,6 @@
   @import "@/styles/table-page.scss";
   .searchGrid{
         min-height: calc(100vh - 202px - 64px);
-  }
-  .spaceValue{
-    margin-bottom:15px;
   }
   .colorRed{
     color: red;

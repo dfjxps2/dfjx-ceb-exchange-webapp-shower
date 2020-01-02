@@ -200,21 +200,4 @@
   .searchGrid{
         min-height: calc(100vh - 202px - 64px);
   }
-  .spaceValue{
-    margin-bottom:15px;
-  }
-  .textCalss{
-      font-size: 13px;
-      color:#606266;
-      margin-left: 10px;
-  }
-  .colorRed{
-    color: red;
-    position: absolute;
-    top: 10%;
-    left: -2%;
-  }
-  .boxForm_item{
-    position: relative;
-  }
 </style>

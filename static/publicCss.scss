@@ -2,21 +2,30 @@
     text-align: left;
   }
   .el-table--mini td, .el-table--mini th{
-    padding: 3px 0;
+    padding: 4px 0;
   }
   .el-table thead{
-    font-size: 13px;
+    font-size: 12px;
+    color: #928e90;
+  }
+  .el-table .cell.el-tooltip {
+    color: #76787b!important;
   }
   .publicClass{
     background: #ffffff;
     padding: 10px;
   }
+  .spaceValue{
+    margin-bottom:10px;
+  }
+  .textCalss{
+    font-size: 12px;
+    color:#606266;
+    margin-left: 10px;
+  }
   .headerCountentStyle{
     background: #f6f5fa;
-    height: 60px;
+    height: 58px;
     display: flex;
     align-items: center;
-  }
-  .el-table .cell.el-tooltip {
-    color: #76787b!important;
   }

@@ -1,5 +1,5 @@
 <template>
-  <WorkMain :headerItems="['server状态']">
+  <WorkMain :headerItems="['Server状态']">
     <div class="publicClass">
       <el-row>
         <el-col :span="24">
@@ -9,8 +9,8 @@
                   <img src="../../../../static/image/serverImg.png" alt="" class="standbyimg">
               </div>
               <div class="countent">
-                  <p><span>状态：</span><span >{{isStatusRun1}}</span></p>
-                  <p><span>状态：</span><span >{{isStatusRun2}}</span></p>
+                  <p><span>状态：</span><span ref="refsActive">{{isStatusRun1}}</span></p>
+                  <p><span>状态：</span><span ref="refsStandby">{{isStatusRun2}}</span></p>
               </div>
               <div class="countents">
                   <p><span>服务器:</span><span>{{server1}}</span></p>
@@ -68,6 +68,16 @@
               this.totalSpace = json.total;
               this.alreadyUsed = json.used;
               this.surplusSpace = json.free;
+              if(this.isStatusRun1 == "active"){
+                  this.$refs.refsActive.style = "color:blue";
+              }else{
+                this.$refs.refsActive.style = "color:red";
+              }
+              if(this.isStatusRun2 == "standby"){
+                  this.$refs.refsStandby.style = "color:red";
+              }else{
+                this.$refs.refsStandby.style = "color:blue";
+              }
           })
        },
     },
@@ -90,18 +100,6 @@
   @import "@/styles/table-page.scss";
   .searchGrid{
         min-height: calc(100vh - 202px - 64px);
-  }
-  .spaceValue{
-    margin-bottom:15px;
-  }
-  .colorRed{
-    color: red;
-    position: absolute;
-    top: 10%;
-    left: -2%;
-  }
-  .boxForm_item{
-    position: relative;
   }
   .activeimg{
     display: inline-block;
@@ -129,10 +127,4 @@
     padding-top: 100px;
     height: 88%;
   }
-  // .activeT{
-  //   color: blue;
-  // }
-  // .activeF{
-  //   color: red;
-  // }
 </style>

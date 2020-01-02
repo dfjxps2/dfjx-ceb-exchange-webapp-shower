@@ -545,7 +545,7 @@
                     'dat_cd': this.dat_cd,
                     'download_cron': this.editformData.dataDownloadTime,
                     'storage_path': this.editformData.dataSsionPath,
-                    'cons_desc': this.editformData.dataUseObjective,
+                    'cons_desc': this.editformData.dataUseObjective == ""?"暂无":this.editformData.dataUseObjective,
                     'flag': this.editformData.isEnable,
                   }
               }).then((res) => {
@@ -604,14 +604,6 @@
   @import "@/styles/table-page.scss";
   .searchGrid{
         min-height: calc(100vh - 202px - 64px);
-  }
-  .spaceValue{
-    margin-bottom:15px;
-  }
-  .textCalss{
-      font-size: 13px;
-      color:#606266;
-      margin-left: 10px;
   }
   .colorRed{
     color: red;

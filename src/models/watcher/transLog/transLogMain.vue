@@ -2,7 +2,7 @@
   <WorkMain :headerItems="['传输日志']">
     <div class="publicClass">
       <el-row :gutter="20">
-        <el-col class=" spaceValue" :span="24">
+        <el-col class="spaceValue" :span="24">
           <div class="headerCountentStyle">
               <span class="textCalss">所属应用项目：</span>
               <el-select size="mini"  style="width:150px;" v-model="projectS" placeholder="请选择项目" clearable filterable >
@@ -292,24 +292,5 @@
   @import "@/styles/table-page.scss";
   .searchGrid{
         min-height: calc(100vh - 202px - 64px);
-  }
-  .spaceValue{
-    margin-bottom:15px;
-  }
-  .textCalss{
-      font-size: 13px;
-      color:#606266;
-      margin-left: 10px;
-      display: inline-block;
-      // width:95px;
-  }
-  .colorRed{
-    color: red;
-    position: absolute;
-    top: 10%;
-    left: -2%;
-  }
-  .boxForm_item{
-    position: relative;
   }
 </style>
